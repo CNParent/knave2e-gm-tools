@@ -6,7 +6,7 @@ export default class RestClient {
     async get(path = '') {
         return new Promise(resolve => {
             let req = new XMLHttpRequest();
-            req.open('get', `${this.url}/${path}`);
+            req.open('get', `${this.url}${path}`);
             req.onload = () => {
                 if (req.status > 299) resolve();
                 else resolve(req.response);
