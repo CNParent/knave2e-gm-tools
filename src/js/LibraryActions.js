@@ -3,6 +3,7 @@ import Dice from './Dice.js';
 const roller = new Dice();
 
 let rollOnTable = ({ table, modifier, tables }) => {
+    console.log(`Rolling ${table.roll} + ${modifier} on ${table.name}`);
     let roll = roller.roll(table.roll + modifier);
     let max = Math.max(...table.entries.map(x => x.max));
     let min = Math.min(...table.entries.map(x => x.min));
@@ -11,7 +12,7 @@ let rollOnTable = ({ table, modifier, tables }) => {
 
     let result = table.entries.find(x => x.min <= roll && x.max >= roll);
     if (!result) {
-        alert(`Error - rolled ${roll} on table ${table.name}`);
+        alert(`Error - rolled ${roll} on table ${table.id}`);
         return;
     }
 
@@ -27,20 +28,25 @@ let rollOnTable = ({ table, modifier, tables }) => {
         description: description
     }];
 
-    if (!result.table) return results;
+    if (!result.tables) return results;
 
-    table = tables.find(x => x.name == result.table);
-    if (!table) {
-        results.push({ 
-            roll: 0,
-            table: null,
-            description: `Could not find table named ${results[results.length - 1].table}`
-        })
+    result.tables.forEach(t => {
+        console.log(`finding table with id ${t}`);
+        let next = tables.find(x => x.id == t);
+        console.log(`found table: ${next.name}`);
+        if (!next) {
+            results.push({ 
+                roll: 0,
+                table: null,
+                description: `Could not find table with id ${t}`
+            });
+        }
+        else {
+            results = results.concat(rollOnTable({ table: next, modifier, tables }));
+        }
+    });
 
-        return results;
-    }
-
-    return results.concat(rollOnTable({ table, modifier, tables }));
+    return results;
 }
 
 export default {

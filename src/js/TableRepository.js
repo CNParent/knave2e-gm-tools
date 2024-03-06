@@ -7,7 +7,8 @@ export default class TableRepository {
     }
 
     async loadData() {
-        let data = await this.client.get('test.json');
+        let data = await this.client.get('seed.json');
         this.tables = JSON.parse(data);
+        console.log(this.tables);
     }
 }
