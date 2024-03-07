@@ -1,5 +1,6 @@
 <script>
-    import TextInput from "./TextInput.svelte";
+    import TableEntry from "./TableEntry.svelte";
+import TextInput from "./TextInput.svelte";
 
     export let table;
 
@@ -14,6 +15,23 @@
         <TextInput label="Display Name" bind:value={table.name} />
         <TextInput label="Category" bind:value={table.category} />
         <TextInput label="Roll" bind:value={table.roll} />
+        <hr />
+        <h2>Entries</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Minimum</th>
+                    <th>Maximum</th>
+                    <th>Text</th>
+                    <th>Tables</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each table.entries as entry (entry.id)}
+                <TableEntry {entry} />
+                {/each}
+            </tbody>
+        </table>
     </div>
     {/if}
 </div>
