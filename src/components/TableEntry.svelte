@@ -2,6 +2,8 @@
     import TextInput from "./TextInput.svelte";
 
     export let entry;
+    export let deleteEntry;
+    export let allTables;
 </script>
 
 <tr>
@@ -11,8 +13,13 @@
     <td>
         <ul>
             {#each entry.tables as table}
-                <li>{table}</li>
+                <li>{allTables.find(x => x.id == table)?.name ?? 'error: mapped table not found'}</li>
             {/each}
         </ul>
+    </td>
+    <td>
+        <div class="d-flex">
+            <button class="btn btn-danger" title="delete" on:click={() => deleteEntry(entry)}>&cross;</button>
+        </div>
     </td>
 </tr>

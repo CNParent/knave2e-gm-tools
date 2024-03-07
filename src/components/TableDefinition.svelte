@@ -1,17 +1,30 @@
 <script>
     import TableEntry from "./TableEntry.svelte";
-import TextInput from "./TextInput.svelte";
+    import TextInput from "./TextInput.svelte";
 
     export let table;
+    export let allTables;
 
     let expand = false;
+
+    let addEntry = () => {
+        let id = Math.max(...table.entries.map(x => x.id)) + 1;
+        let min = Math.max(...table.entries.map(x => x.max)) + 1;
+        table.entries = [...table.entries, { id, name: '', min, max: min, tables: [] }];
+    }
+
+    let deleteEntry = (entry) => {
+        let index = table.entries.indexOf(entry);
+        table.entries =  [...table.entries.slice(0, index), ...table.entries.slice(index + 1, table.entries.length)];
+    };
+
+    console.log(table);
 </script>
 
 <div class="w-100 m-1">
     <button on:click={() => expand = !expand} class="text-left btn btn-light border w-100">{table.name}</button>
     {#if expand}
     <div class="p-2 border">
-        <TextInput label="ID" bind:value={table.id} />
         <TextInput label="Display Name" bind:value={table.name} />
         <TextInput label="Category" bind:value={table.category} />
         <TextInput label="Roll" bind:value={table.roll} />
@@ -24,14 +37,18 @@ import TextInput from "./TextInput.svelte";
                     <th>Maximum</th>
                     <th>Text</th>
                     <th>Tables</th>
+                    <th><span class="collapse">Actions</span></th>
                 </tr>
             </thead>
             <tbody>
                 {#each table.entries as entry (entry.id)}
-                <TableEntry {entry} />
+                <TableEntry {entry} {deleteEntry} {allTables} />
                 {/each}
             </tbody>
-        </table>
+        </table>        
+        <div class="d-flex">
+            <button class="btn btn-light border" on:click={addEntry}>Add Entry</button>
+        </div>
     </div>
     {/if}
 </div>
