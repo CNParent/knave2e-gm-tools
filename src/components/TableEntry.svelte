@@ -4,6 +4,14 @@
     export let entry;
     export let deleteEntry;
     export let allTables;
+
+    let addTable = () => {
+        entry.tables = [...entry.tables, 0];
+    }
+
+    let removeLastTable = () => {
+        entry.tables = [...entry.tables.slice(0, entry.tables.length - 1)];
+    }
 </script>
 
 <tr>
@@ -13,8 +21,22 @@
     <td>
         <ul>
             {#each entry.tables as table}
-                <li>{allTables.find(x => x.id == table)?.name ?? 'error: mapped table not found'}</li>
+            <div>
+                <label class="form-group w-100 m-0">
+                    <span class="collapse">Roll on table</span>
+                    <select class="form-control" value={table}>
+                        <option value="0"></option>
+                        {#each allTables as option}
+                        <option value={option.id}>{option.name}</option>
+                        {/each}
+                    </select>
+                </label>
+            </div>
             {/each}
+            <div class="d-flex mt-1">
+                <button class="btn btn-light" on:click={addTable}>Add Table</button>
+                <button class="btn btn-danger ml-1" on:click={removeLastTable}>Remove last table</button>
+            </div>
         </ul>
     </td>
     <td>
