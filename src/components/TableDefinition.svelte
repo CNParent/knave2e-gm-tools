@@ -4,6 +4,7 @@
 
     export let table;
     export let allTables;
+    export let deleteTable;
 
     let expand = false;
 
@@ -48,6 +49,7 @@
         </table>        
         <div class="d-flex">
             <button class="btn btn-light border" on:click={addEntry}>Add Entry</button>
+            <button class="btn btn-danger" on:click={() => deleteTable(table)}>Delete Table</button>
         </div>
     </div>
     {/if}
