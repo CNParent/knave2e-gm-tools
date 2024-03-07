@@ -7,7 +7,7 @@
 	import { theme, setTheme } from './lib/styles.js';
 
 	let tab = 'tables';
-	let tableRepository = new TableRepository();
+	let tableRepository;
 	let navExpanded = false;
 
 	onMount(async () => {
@@ -80,7 +80,7 @@
 			</ul>
 		</div>
 	</nav>
-	{#if !tableRepository.done}
+	{#if !tableRepository}
 		Loading table data...
 	{:else}
 		{#if tab == 'tables'}

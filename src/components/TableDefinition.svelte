@@ -23,8 +23,6 @@
         table.entries.sort((a,b) => a.min - b.min);
         table.entries = table.entries;
     }
-
-    console.log(table);
 </script>
 
 <div class="w-100 mb-1">
