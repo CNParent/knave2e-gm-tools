@@ -1,12 +1,39 @@
 <script>
-    import Library from './components/Library.svelte';
+	import Library from './components/Library.svelte';
     import TableManager from './components/TableManager.svelte';
-	import TableRepository from './js/TableRepository.js'
-	import { theme, setTheme } from './lib/styles.js'
+	import TableRepository from './js/TableRepository.js';
+	import io from './js/IO.js';
+	import { onMount } from 'svelte';
+	import { theme, setTheme } from './lib/styles.js';
 
 	let tab = 'tables';
-	let tr = new TableRepository();
+	let tableRepository = new TableRepository();
 	let navExpanded = false;
+
+	onMount(async () => {
+		tableRepository = new TableRepository();
+		await tableRepository.loadData();
+	});
+
+	let importTables = () => {
+		if(confirm('Delete existing tables?')) {
+			console.log('Deleting tables');
+			tableRepository.tables = [];
+			console.log('Tables after deleting:')
+			console.log(tableRepository.tables)
+		}
+
+		io.import((tables) => {
+			let id = tableRepository.tables.length == 0 ? 1 : Math.max(...tableRepository.tables.map(t => t.id)) + 1;
+			console.log(tableRepository.tables);
+			tables.forEach(t => {
+				console.log(`Assigning id ${id} to ${t.name}`);
+				t.id = id++;
+			});
+
+			tableRepository.tables = [...tableRepository.tables, ...tables];
+		});
+	}
 </script>
 
 <svelte:head>
@@ -32,6 +59,15 @@
 				<li class="nav-item {tab == "manager" ? "active" : ""}">
 					<a class="nav-link" href="#" on:click={() => tab = "manager"}>Table Manager</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#" on:click={importTables}>Import Tables</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#" on:click={() => io.export(tableRepository.tables)}>Export Tables</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#" on:click={() => tableRepository.save()}>Save Tables</a>
+				</li>
 			</ul>			
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
@@ -44,21 +80,21 @@
 			</ul>
 		</div>
 	</nav>
-	{#if tab == 'tables'}
-	<div class="p-2">
-		<div class="row">
-			<div class="col">
-				<h1>Table Roller</h1>
+	{#if !tableRepository.done}
+		Loading table data...
+	{:else}
+		{#if tab == 'tables'}
+			<div class="p-2">
+				<div class="row">
+					<div class="col">
+						<h1>Table Roller</h1>
+					</div>
+				</div>
+				<hr />
+				<Library tables={tableRepository.tables} />
 			</div>
-		</div>
-		<hr />
-        {#await tr.loadData()}
-            Loading table data...
-        {:then} 
-            <Library tables={tr.tables} />
-        {/await}
-	</div>
-	{:else if tab == "manager"}
-		<TableManager {tr} />
+		{:else if tab == "manager"}
+			<TableManager tables={tableRepository.tables} />
+		{/if}
 	{/if}
 </main>
