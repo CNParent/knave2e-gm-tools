@@ -9,8 +9,8 @@
     let expand = false;
 
     let addEntry = () => {
-        let id = Math.max(...table.entries.map(x => x.id)) + 1;
-        let min = Math.max(...table.entries.map(x => x.max)) + 1;
+        let id = table.entries.length == 0 ? 1 : Math.max(...table.entries.map(x => x.id)) + 1;
+        let min = table.entries.length == 0 ? 1 : Math.max(...table.entries.map(x => x.max)) + 1;
         table.entries = [{ id, name: '', min, max: min, tables: [] }, ...table.entries];
     }
 
