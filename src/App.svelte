@@ -1,5 +1,6 @@
 <script>
     import Library from './components/Library.svelte';
+    import TableManager from './components/TableManager.svelte';
 	import TableRepository from './js/TableRepository.js'
 	import { theme, setTheme } from './lib/styles.js'
 
@@ -58,6 +59,6 @@
         {/await}
 	</div>
 	{:else if tab == "manager"}
-		Manager not yet available
+		<TableManager {tr} />
 	{/if}
 </main>
