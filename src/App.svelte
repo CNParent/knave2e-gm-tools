@@ -91,10 +91,10 @@
 					</div>
 				</div>
 				<hr />
-				<Library tables={tableRepository.tables} />
+				<Library bind:tables={tableRepository.tables} />
 			</div>
 		{:else if tab == "manager"}
-			<TableManager tables={tableRepository.tables} />
+			<TableManager bind:tables={tableRepository.tables} />
 		{/if}
 	{/if}
 </main>
