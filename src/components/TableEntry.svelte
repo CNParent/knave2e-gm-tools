@@ -27,7 +27,7 @@
                 {#each entry.tables as table}
                     <label class="form-group w-100 m-0">
                         <span class="collapse">Roll on table</span>
-                        <select class="form-control" value={table}>
+                        <select class="form-control" bind:value={table}>
                             <option value="0"></option>
                             {#each allTables as option}
                             <option value={option.id}>{option.name}</option>
