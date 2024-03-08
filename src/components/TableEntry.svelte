@@ -5,6 +5,8 @@
     export let deleteEntry;
     export let allTables;
 
+    let expand = false;
+
     let addTable = () => {
         entry.tables = [...entry.tables, 0];
     }
@@ -14,34 +16,33 @@
     }
 </script>
 
-<tr>
-    <td><TextInput label="Minimum" bind:value={entry.min} /></td>
-    <td><TextInput label="Maximum" bind:value={entry.max} /></td>
-    <td><TextInput label="Name" bind:value={entry.name} /></td>
-    <td>
-        <ul>
-            {#each entry.tables as table}
-            <div>
-                <label class="form-group w-100 m-0">
-                    <span class="collapse">Roll on table</span>
-                    <select class="form-control" value={table}>
-                        <option value="0"></option>
-                        {#each allTables as option}
-                        <option value={option.id}>{option.name}</option>
-                        {/each}
-                    </select>
-                </label>
+<div class="m-1 p-2 border">
+    <TextInput label="Minimum" bind:value={entry.min} />
+    <TextInput label="Maximum" bind:value={entry.max} />
+    <TextInput label="Name" bind:value={entry.name} />
+    <div>
+        <button on:click={() => expand = !expand} class="text-left btn btn-light w-100">{expand ? 'Hide tables' : 'Show tables'}</button>
+        {#if expand}
+            <div class="ml-2 p-2 border">
+                {#each entry.tables as table}
+                    <label class="form-group w-100 m-0">
+                        <span class="collapse">Roll on table</span>
+                        <select class="form-control" value={table}>
+                            <option value="0"></option>
+                            {#each allTables as option}
+                            <option value={option.id}>{option.name}</option>
+                            {/each}
+                        </select>
+                    </label>
+                {/each}
+                <div class="d-flex mt-1">
+                    <button class="btn btn-light" on:click={addTable}>Add Table</button>
+                    <button class="btn btn-danger ml-1" on:click={removeLastTable}>Remove last table</button>
+                </div>
             </div>
-            {/each}
-            <div class="d-flex mt-1">
-                <button class="btn btn-light" on:click={addTable}>Add Table</button>
-                <button class="btn btn-danger ml-1" on:click={removeLastTable}>Remove last table</button>
-            </div>
-        </ul>
-    </td>
-    <td>
-        <div class="d-flex">
-            <button class="btn btn-danger" title="delete" on:click={() => deleteEntry(entry)}>&cross;</button>
-        </div>
-    </td>
-</tr>
+        {/if}
+    </div>
+    <div class="d-flex">
+        <button class="btn btn-danger" title="delete" on:click={() => deleteEntry(entry)}>Delete entry</button>
+    </div>
+</div>
