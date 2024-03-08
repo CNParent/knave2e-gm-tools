@@ -26,7 +26,11 @@ export default class TableRepository {
             }
         }
 
-        let data = await this.client.get('seed.json');
+        await this.reset();
+    }
+
+    async reset() {
+        let data = await this.client.get('seed.json')
         this.tables = JSON.parse(data);
         this.done = true;
     }

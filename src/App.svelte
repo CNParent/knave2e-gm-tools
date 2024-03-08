@@ -15,6 +15,20 @@
 		await tableRepository.loadData();
 	});
 
+	let reset = async () => {
+		if(!confirm('Reset tables and load default table set? Any unsaved changes will be lost.')) return;
+
+		await tableRepository.reset();
+		tableRepository = tableRepository;
+	}
+
+	let deleteAll = () => {
+		if(!confirm('Delete all tables? Any unsaved changes will be lost.')) return;
+
+		tableRepository.tables = [];
+		tableRepository = tableRepository;
+	}
+
 	let importTables = () => {
 		if(confirm('Delete existing tables?')) {
 			tableRepository.tables = [];
@@ -88,7 +102,7 @@
 			</ul>
 		</div>
 	</nav>
-	{#if !tableRepository}
+	{#if !tableRepository || !tableRepository.done}
 		Loading table data...
 	{:else}
 		{#if tab == 'tables'}
@@ -102,7 +116,7 @@
 				<Library bind:tables={tableRepository.tables} />
 			</div>
 		{:else if tab == "manager"}
-			<TableManager bind:tables={tableRepository.tables} />
+			<TableManager bind:tables={tableRepository.tables} {reset} {deleteAll} />
 		{/if}
 	{/if}
 </main>

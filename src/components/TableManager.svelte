@@ -3,6 +3,8 @@
     import TextInput from "./TextInput.svelte";
 
     export let tables;
+    export let reset;
+    export let deleteAll;
 
     let filter = '';
     $: filtered = tables.filter(x => !filter || x.name.toLowerCase().includes(filter.toLowerCase()));
@@ -33,6 +35,8 @@
     <button class="btn btn-light" on:click={sortaz}>A &rarr; Z</button>
     <button class="btn btn-light" on:click={sortza}>Z &rarr; A</button>
     <button class="btn btn-light" on:click={addTable}>Add Table</button>
+    <button class="btn btn-danger" on:click={reset}>Reset</button>
+    <button class="btn btn-danger" on:click={deleteAll}>Delete All</button>
 </div>
 <div class="m-2 p-2 border">
     <TextInput label="Filter" bind:value={filter} />
