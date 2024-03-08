@@ -17,18 +17,26 @@
 
 	let importTables = () => {
 		if(confirm('Delete existing tables?')) {
-			console.log('Deleting tables');
 			tableRepository.tables = [];
-			console.log('Tables after deleting:')
-			console.log(tableRepository.tables)
 		}
 
 		io.import((tables) => {
 			let id = tableRepository.tables.length == 0 ? 1 : Math.max(...tableRepository.tables.map(t => t.id)) + 1;
-			console.log(tableRepository.tables);
+			let idMap = [];
 			tables.forEach(t => {
-				console.log(`Assigning id ${id} to ${t.name}`);
+				idMap.push({ oldId: t.id, newId: id });
 				t.id = id++;
+			});
+
+			idMap.forEach(pair => {
+				let entries = tables
+					.reduce((a,b) => [...a, ...b.entries], [])
+					.filter(e => e.tables.includes(pair.oldId));
+				
+				entries.forEach(e => {
+					let index = e.tables.indexOf(pair.oldId);
+					e.tables = [...e.tables.slice(0, index), ...e.tables.slice(index + 1, e.tables.length), pair.newId]
+				});
 			});
 
 			tableRepository.tables = [...tableRepository.tables, ...tables];
