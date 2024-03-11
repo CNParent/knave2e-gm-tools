@@ -8,7 +8,7 @@
 
     let category = '';
     let filter = '';
-    let topLevelOnly = true;
+    let topLevelOnly = false;
 
     $: categories = [...new Set(tables.filter(x => x.category).map(x => x.category))].sort((a,b) => a.localeCompare(b));
     $: filtered = tables
@@ -18,7 +18,7 @@
 
     let addTable = () => {
         let id = Math.max(...tables.map(x => x.id)) + 1;
-        tables = [{ id, name: 'New Table', category: '', roll: '', topLevel: false, entries: [] }, ...tables];
+        tables = [{ id, name: 'New Table', category: '', roll: '', topLevel: topLevelOnly, entries: [] }, ...tables];
     }
 
     let deleteTable = (table) => {
