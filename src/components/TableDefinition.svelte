@@ -2,6 +2,7 @@
     import TableEntry from "./TableEntry.svelte";
     import TextInput from "./TextInput.svelte";
     import labels from "./../js/Labels.js";
+    import {buttons} from "./../lib/styles";
 
     export let table;
     export let allTables;
@@ -79,59 +80,69 @@
 <div class="w-100 mb-1">
     <button on:click={() => expand = !expand} class="text-left btn btn-light border w-100">{table.name}</button>
     {#if expand}
-    <div class="p-2 border">
-        <TextInput label="Display Name" bind:value={table.name} />
-        <TextInput label="Category" bind:value={table.category} />
-        <TextInput label="Roll" bind:value={table.roll} />
-        <label class="form-group w-100">
-            <input type="checkbox" bind:checked={table.topLevel}>
-            <span>Top Level</span>
-        </label>
-        <hr />
-        <button class="btn btn-light w-100 text-left border" on:click={() => expandEntries = !expandEntries}>{expandEntries ? "Hide entries" : "Show entries"}</button>
-        {#if expandEntries}
-            <button class="btn btn-light border" on:click={addEntry}>Add Entry</button>
-            <button class="btn btn-light border" on:click={sortEntries}>1 &rarr; N</button>
-            <div class="btn-group">
-                <button class="btn btn-light {editMode == modes.designer ? "active" : ""}" on:click={() => editMode = modes.designer}>Designer</button>
-                <button class="btn btn-light {editMode == modes.list ? "active" : "" }" on:click={() => editMode = modes.list}>List</button>
-                <button class="btn btn-light {editMode == modes.json ? "active" : ""}" on:click={() => editMode = modes.json}>JSON</button>
-            </div>
-            {#if editMode == modes.designer}
-            <table class="table table-striped">
-                <thead class="collapse">
-                    <tr>
-                        <th>Item</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {#each table.entries as entry (entry.id)}
-                    <tr>
-                        <TableEntry {entry} {deleteEntry} {allTables} />
-                    </tr>
-                    {/each}
-                </tbody>
-            </table>
-            {:else if editMode == modes.list}
-                <button class="btn btn-light ml-1" on:click={saveList}>Save</button>
-                <textarea 
-                    tabindex="0" 
-                    contenteditable="true" 
-                    class="form-control w-100" 
-                    style="font-family:monospace;font-size:small;height:30em;resize:none;" 
-                    bind:value={list} />
-            {:else if editMode == modes.json}
-                <button class="btn btn-light ml-1" on:click={saveEntriesJson}>Save</button>
-                <textarea 
-                    tabindex="0" 
-                    contenteditable="true" 
-                    class="form-control w-100" 
-                    style="font-family:monospace;font-size:small;height:30em;resize:none;" 
-                    bind:value={entriesJson} />
-            {/if}
+    <div class="d-flex">
+        <div class="pr-1" style="width: 1em">
+            <button class="{buttons.verticalButton}" on:click={() => expand = false}><span class="collapse">Hide table definition</span></button>
+        </div>
+        <div>
+            <TextInput label="Display Name" bind:value={table.name} />
+            <TextInput label="Category" bind:value={table.category} />
+            <TextInput label="Roll" bind:value={table.roll} />
+            <label class="form-group w-100">
+                <input type="checkbox" bind:checked={table.topLevel}>
+                <span>Top Level</span>
+            </label>
             <hr />
-        {/if}
-        <button class="btn btn-danger border" on:click={() => deleteTable(table)}>Delete Table</button>
+            <button class="btn btn-light w-100 text-left border" on:click={() => expandEntries = !expandEntries}>{expandEntries ? "Hide entries" : "Show entries"}</button>
+            {#if expandEntries}
+                <button class="btn btn-light border" on:click={addEntry}>Add Entry</button>
+                <button class="btn btn-light border" on:click={sortEntries}>1 &rarr; N</button>
+                <div class="btn-group">
+                    <button class="btn btn-light {editMode == modes.designer ? "active" : ""}" on:click={() => editMode = modes.designer}>Designer</button>
+                    <button class="btn btn-light {editMode == modes.list ? "active" : "" }" on:click={() => editMode = modes.list}>List</button>
+                    <button class="btn btn-light {editMode == modes.json ? "active" : ""}" on:click={() => editMode = modes.json}>JSON</button>
+                </div>
+                {#if editMode == modes.designer}
+                <div class="d-flex">
+                    <div class="pr-1" style="width: 1em">
+                        <button class="{buttons.verticalButton}" on:click={() => expandEntries = false}><span class="collapse">Hide table definition</span></button>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="collapse">
+                            <tr>
+                                <th>Item</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#each table.entries as entry (entry.id)}
+                            <tr>
+                                <TableEntry {entry} {deleteEntry} {allTables} />
+                            </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                </div>
+                {:else if editMode == modes.list}
+                    <button class="btn btn-light ml-1" on:click={saveList}>Save</button>
+                    <textarea 
+                        tabindex="0" 
+                        contenteditable="true" 
+                        class="form-control w-100" 
+                        style="font-family:monospace;font-size:small;height:30em;resize:none;" 
+                        bind:value={list} />
+                {:else if editMode == modes.json}
+                    <button class="btn btn-light ml-1" on:click={saveEntriesJson}>Save</button>
+                    <textarea 
+                        tabindex="0" 
+                        contenteditable="true" 
+                        class="form-control w-100" 
+                        style="font-family:monospace;font-size:small;height:30em;resize:none;" 
+                        bind:value={entriesJson} />
+                {/if}
+                <hr />
+            {/if}
+            <button class="btn btn-danger border" on:click={() => deleteTable(table)}>Delete Table</button>
+        </div>
     </div>
     {/if}
 </div>

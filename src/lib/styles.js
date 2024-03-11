@@ -6,4 +6,8 @@ function setTheme(name) {
     window.location.search = `theme=${name}`;
 }
 
-export {theme, setTheme};
+const buttons = {
+    verticalButton: 'btn btn-outline-light w-100 h-100 p-0'
+}
+
+export {buttons, theme, setTheme};
