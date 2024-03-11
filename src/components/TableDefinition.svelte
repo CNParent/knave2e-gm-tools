@@ -84,7 +84,7 @@
         <div class="pr-1" style="width: 1em">
             <button class="{buttons.verticalButton}" on:click={() => expand = false}><span class="collapse">Hide table definition</span></button>
         </div>
-        <div>
+        <div class="flex-grow-1">
             <TextInput label="Display Name" bind:value={table.name} />
             <TextInput label="Category" bind:value={table.category} />
             <TextInput label="Roll" bind:value={table.roll} />
@@ -107,7 +107,7 @@
                     <div class="pr-1" style="width: 1em">
                         <button class="{buttons.verticalButton}" on:click={() => expandEntries = false}><span class="collapse">Hide table definition</span></button>
                     </div>
-                    <table class="table table-striped">
+                    <table class="table table-striped flex-grow-1">
                         <thead class="collapse">
                             <tr>
                                 <th>Item</th>
