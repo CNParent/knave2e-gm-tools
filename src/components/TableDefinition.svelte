@@ -83,6 +83,10 @@
         <TextInput label="Display Name" bind:value={table.name} />
         <TextInput label="Category" bind:value={table.category} />
         <TextInput label="Roll" bind:value={table.roll} />
+        <label class="form-group w-100">
+            <input type="checkbox" bind:checked={table.topLevel}>
+            <span>Top Level</span>
+        </label>
         <hr />
         <button class="btn btn-light w-100 text-left border" on:click={() => expandEntries = !expandEntries}>{expandEntries ? "Hide entries" : "Show entries"}</button>
         {#if expandEntries}

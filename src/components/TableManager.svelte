@@ -8,15 +8,17 @@
 
     let category = '';
     let filter = '';
+    let topLevelOnly = true;
 
     $: categories = [...new Set(tables.filter(x => x.category).map(x => x.category))].sort((a,b) => a.localeCompare(b));
     $: filtered = tables
+        .filter(x => !topLevelOnly || x.topLevel)
         .filter(x => !category || x.category == category)
         .filter(x => !filter || x.name.toLowerCase().includes(filter.toLowerCase()));
 
     let addTable = () => {
         let id = Math.max(...tables.map(x => x.id)) + 1;
-        tables = [{ id, name: 'New Table', category: '', roll: '', entries: [] }, ...tables];
+        tables = [{ id, name: 'New Table', category: '', roll: '', topLevel: false, entries: [] }, ...tables];
     }
 
     let deleteTable = (table) => {
@@ -53,6 +55,10 @@
             <option value="{c}">{c}</option>
             {/each}
         </select>
+    </label>
+    <label class="form-group w-100">
+        <input type="checkbox" bind:checked={topLevelOnly}>
+        <span>Top Level Only</span>
     </label>
 </div>
 <div class="p-2">

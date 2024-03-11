@@ -4,6 +4,7 @@
         "name": "Inside the Wall",
         "category": "Room Gen",
         "roll": "3d6",
+        "topLevel": true,
         "entries": [
             { "id": 1, "min": 3, "max": 3, "name": "Treasury", "tables": [3] },
             { "id": 2, "min": 4, "max": 4, "name": "Library", "tables": [2, 3] },
@@ -27,6 +28,7 @@
         "id": 2,
         "name": "Inside the Wall - Exits",
         "roll": "2d6",
+        "topLevel": false,
         "entries": [
             { "id": 1, "min": 2, "max": 2, "name": "One (hidden)", "tables": [] },
             { "id": 2, "min": 3, "max": 4, "name": "One", "tables": [] },
@@ -39,6 +41,7 @@
         "id": 3,
         "name": "Inside the Wall - Occupied",
         "roll": "1d6",
+        "topLevel": false,
         "entries": [
             { "id": 1, "min": 1, "max": 2, "name": "Yes", "tables": [] },
             { "id": 2, "min": 3, "max": 6, "name": "No", "tables": [] }
@@ -48,6 +51,7 @@
         "id": 4,
         "name": "Inside the Wall - Occupied (High)",
         "roll": "1d6",
+        "topLevel": false,
         "entries": [
             { "id": 1, "min": 1, "max": 3, "name": "Yes", "tables": [] },
             { "id": 2, "min": 4, "max": 6, "name": "No", "tables": [] }
@@ -57,6 +61,7 @@
         "id": 5,
         "name": "Inside the Wall - Vertical Connection",
         "roll": "2d6",
+        "topLevel": false,
         "entries": [
             { "id": 1, "min": 2, "max": 3, "name": "Collapsed Floor", "tables": [] },
             { "id": 2, "min": 4, "max": 4, "name": "Trapdoor", "tables": [] },
@@ -72,6 +77,7 @@
         "name": "City Themes",
         "category": "Gen",
         "roll": "1d100",
+        "topLevel": true,
         "entries": [
             { "id": 1, "min": 1, "max": 1, "name": "Alchemy", "tables": [] },
             { "id": 2, "min": 2, "max": 2, "name": "Animal (p. 64)", "tables": [] },

@@ -6,11 +6,12 @@
     let filter = '';
     let modifier = '+0';
     let category = '';
+    let topLevelOnly = true;
     let results = [];
     let categories = [...new Set(tables.filter(x => x.category).map(x => x.category))].sort((a,b) => a.localeCompare(b));
     $: filtered = tables
-        .filter(x => x.category)
         .filter(x => !category || x.category == category)
+        .filter(x => !topLevelOnly || x.topLevel)
         .filter(x => !filter || x.name.toLowerCase().includes(filter.toLowerCase()));
 
     function adjust(n) {
@@ -46,6 +47,10 @@
                                 <option>{c}</option>
                             {/each}
                         </select>
+                        <label class="form group w-100">
+                            <input type="checkbox" bind:checked={topLevelOnly}>
+                            <span>Top Level Only</span>
+                        </label>
                     </div>
                 </div>
             </div>
