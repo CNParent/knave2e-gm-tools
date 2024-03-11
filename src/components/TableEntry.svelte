@@ -1,4 +1,5 @@
 <script>
+    import EntrySubTable from "./EntrySubTable.svelte";
     import TextInput from "./TextInput.svelte";
 
     export let entry;
@@ -25,15 +26,7 @@
         {#if expand}
             <div class="ml-2 p-2 border">
                 {#each entry.tables as table}
-                    <label class="form-group w-100 m-0">
-                        <span class="collapse">Roll on table</span>
-                        <select class="form-control" bind:value={table}>
-                            <option value="0"></option>
-                            {#each allTables as option}
-                            <option value={option.id}>{option.name}</option>
-                            {/each}
-                        </select>
-                    </label>
+                    <EntrySubTable bind:value={table} {allTables} />
                 {/each}
                 <div class="d-flex mt-1">
                     <button class="btn btn-light" on:click={addTable}>Add Table</button>
