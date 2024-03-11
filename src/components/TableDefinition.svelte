@@ -77,8 +77,6 @@
     <button on:click={() => expand = !expand} class="text-left btn btn-light border w-100">{table.name}</button>
     {#if expand}
     <div class="p-2 border">
-        <button class="btn btn-danger border" on:click={() => deleteTable(table)}>Delete Table</button>
-        <hr />
         <TextInput label="Display Name" bind:value={table.name} />
         <TextInput label="Category" bind:value={table.category} />
         <TextInput label="Roll" bind:value={table.roll} />
@@ -124,7 +122,9 @@
                     style="font-family:monospace;font-size:small;height:30em;resize:none;" 
                     bind:value={entriesJson} />
             {/if}
+            <hr />
         {/if}
+        <button class="btn btn-danger border" on:click={() => deleteTable(table)}>Delete Table</button>
     </div>
     {/if}
 </div>
