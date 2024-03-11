@@ -23,11 +23,13 @@
         let id = table.entries.length == 0 ? 1 : Math.max(...table.entries.map(x => x.id)) + 1;
         let min = table.entries.length == 0 ? 1 : Math.max(...table.entries.map(x => x.max)) + 1;
         table.entries = [{ id, name: '', min, max: min, tables: [] }, ...table.entries];
+        table = table;
     }
 
     let deleteEntry = (entry) => {
         let index = table.entries.indexOf(entry);
         table.entries =  [...table.entries.slice(0, index), ...table.entries.slice(index + 1, table.entries.length)];
+        table = table;
     }
 
     let saveEntriesJson = () => {
@@ -70,6 +72,7 @@
     let sortEntries = () => {
         table.entries.sort((a,b) => a.min - b.min);
         table.entries = table.entries;
+        table = table;
     }
 </script>
 
