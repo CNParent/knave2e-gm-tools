@@ -1,6 +1,7 @@
 <script>
     import Table from './Table.svelte'
 	import actions from '../js/LibraryActions.js'
+    import { fade } from 'svelte/transition'
 
     export let tables = [];
     let filter = '';
@@ -8,6 +9,7 @@
     let category = '';
     let topLevelOnly = true;
     let results = [];
+    let showCopied = false;
     let categories = [...new Set(tables.filter(x => x.category).map(x => x.category))].sort((a,b) => a.localeCompare(b));
     $: filtered = tables
         .filter(x => !category || x.category == category)
@@ -19,6 +21,20 @@
         if (n < 0) modifier = `${n}`;
         else modifier = `+${n}`;
     };
+
+    function copyAll() {
+        showCopied = true;
+        navigator.clipboard.writeText(results
+            .map(r => `Rolled ${r.roll} on ${r.table}: ${r.description}`)
+            .reduce((a,b) => `${a}${b}\n`, ''));
+    }
+
+    function copyResults() {
+        showCopied = true;
+        navigator.clipboard.writeText(results
+            .map(r => r.description)
+            .reduce((a,b) => `${a}${b}\n`, ''));
+    }
 
 	function handleRoll(table) {
 		results = actions.rollOnTable({ table, modifier, tables });
@@ -68,6 +84,15 @@
         </div>
     </div>
     <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <button class="btn btn-light" on:click={copyAll}>Copy Output</button>
+                <button class="btn btn-light" on:click={copyResults}>Copy Results</button>
+                {#if showCopied}
+                <button out:fade class="badge btn btn-success" on:click={() => showCopied = false}>&check; copied!</button>
+                {/if}
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 {#each results as result}
