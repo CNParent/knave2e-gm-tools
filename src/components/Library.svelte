@@ -7,13 +7,11 @@
     let modifier = '+0';
     let category = '';
     let results = [];
-    let categories = [...new Set(tables.filter(x => x.category).map(x => x.category))];
-    categories.sort((a,b) => a.localeCompare(b));
-    
+    let categories = [...new Set(tables.filter(x => x.category).map(x => x.category))].sort((a,b) => a.localeCompare(b));
     $: filtered = tables
         .filter(x => x.category)
         .filter(x => !category || x.category == category)
-        .filter(x => x.name.toLowerCase().includes(filter.toLowerCase()));
+        .filter(x => !filter || x.name.toLowerCase().includes(filter.toLowerCase()));
 
     function adjust(n) {
         n += Number(modifier);

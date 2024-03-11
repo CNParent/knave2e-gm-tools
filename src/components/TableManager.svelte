@@ -6,8 +6,13 @@
     export let reset;
     export let deleteAll;
 
+    let category = '';
     let filter = '';
-    $: filtered = tables.filter(x => !filter || x.name.toLowerCase().includes(filter.toLowerCase()));
+
+    $: categories = [...new Set(tables.filter(x => x.category).map(x => x.category))].sort((a,b) => a.localeCompare(b));
+    $: filtered = tables
+        .filter(x => !category || x.category == category)
+        .filter(x => !filter || x.name.toLowerCase().includes(filter.toLowerCase()));
 
     let addTable = () => {
         let id = Math.max(...tables.map(x => x.id)) + 1;
@@ -40,6 +45,15 @@
 </div>
 <div class="m-2 p-2 border">
     <TextInput label="Filter" bind:value={filter} />
+    <label class="form-group w-100 m-0">
+        <span class="collapse">Category filter</span>
+        <select class="form-control" bind:value={category}>
+            <option></option>
+            {#each categories as c}
+            <option value="{c}">{c}</option>
+            {/each}
+        </select>
+    </label>
 </div>
 <div class="p-2">
     {#each filtered as table (table.id)}
