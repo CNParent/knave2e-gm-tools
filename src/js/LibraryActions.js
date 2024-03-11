@@ -12,7 +12,7 @@ let rollOnTable = ({ table, modifier, tables }) => {
 
     let result = table.entries.find(x => x.min <= roll && x.max >= roll);
     if (!result) {
-        alert(`Error - rolled ${roll} on table ${table.id}`);
+        alert(`Error - rolled ${roll} on table ${table.name} (id: ${table.id})`);
         return;
     }
 

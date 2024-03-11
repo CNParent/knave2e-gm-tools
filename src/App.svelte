@@ -43,15 +43,8 @@
 				t.id = id++;
 			});
 
-			idMap.forEach(pair => {
-				let entries = tables
-					.reduce((a,b) => [...a, ...b.entries], [])
-					.filter(e => e.tables.includes(pair.oldId));
-				
-				entries.forEach(e => {
-					let index = e.tables.indexOf(pair.oldId);
-					e.tables = [...e.tables.slice(0, index), ...e.tables.slice(index + 1, e.tables.length), pair.newId]
-				});
+			tables.reduce((a,b) => [...a, ...b.entries], []).forEach(e => {
+				e.tables = e.tables.map(et => idMap.find(pair => pair.oldId == et)?.newId ?? et);
 			});
 
 			tableRepository.tables = [...tableRepository.tables, ...tables];
