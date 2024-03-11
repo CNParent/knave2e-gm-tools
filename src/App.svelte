@@ -13,6 +13,7 @@
 	onMount(async () => {
 		tableRepository = new TableRepository();
 		await tableRepository.loadData();
+		tableRepository = tableRepository;
 	});
 
 	let reset = async () => {
