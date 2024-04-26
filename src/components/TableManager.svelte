@@ -18,7 +18,7 @@
 
     let addTable = () => {
         let id = Math.max(...tables.map(x => x.id)) + 1;
-        tables = [{ id, name: 'New Table', category: '', roll: '', topLevel: topLevelOnly, entries: [] }, ...tables];
+        tables = [{ id, name: 'New Table', category: category, roll: '', topLevel: topLevelOnly, applyModifiers: false, entries: [] }, ...tables];
     }
 
     let deleteTable = (table) => {
