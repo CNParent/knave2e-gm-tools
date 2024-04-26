@@ -3,8 +3,11 @@ import Dice from './Dice.js';
 const roller = new Dice();
 
 let rollOnTable = ({ table, modifier, tables }) => {
-    console.log(`Rolling ${table.roll} + ${modifier} on ${table.name}`);
-    let roll = roller.roll(table.roll + modifier);
+    let appliedModifier = modifier;
+    if (!table.applyModifiers) appliedModifier = '+0';
+
+    console.log(`Rolling ${table.roll} + ${appliedModifier} on ${table.name}`);
+    let roll = roller.roll(table.roll + appliedModifier);
     let max = Math.max(...table.entries.map(x => x.max));
     let min = Math.min(...table.entries.map(x => x.min));
     if (roll > max) roll = max;

@@ -92,6 +92,10 @@
                 <input type="checkbox" bind:checked={table.topLevel}>
                 <span>Top Level</span>
             </label>
+            <label class="form-group w-100">
+                <input type="checkbox" bind:checked={table.applyModifiers}>
+                <span>Apply Roll Modifiers</span>
+            </label>
             <hr />
             <button class="btn btn-light w-100 text-left border" on:click={() => expandEntries = !expandEntries}>{expandEntries ? "Hide entries" : "Show entries"}</button>
             {#if expandEntries}
